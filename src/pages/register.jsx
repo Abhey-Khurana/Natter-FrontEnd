@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import Logo from "../assets/logo.svg"
 import { Link, useNavigate } from "react-router-dom"
@@ -9,7 +9,7 @@ import axios from 'axios';
 
 function Register() {
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const [value, setValue] = useState({
     username: "",
@@ -26,26 +26,40 @@ function Register() {
     draggable: true,
     theme: "dark",
   }
+  
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+
+      let username = JSON.parse(localStorage.getItem("chat-app-user"));
+
+
+      toast.success(`Welcome Back ${username.username}`, toastOptions);
+
+      setTimeout(() => {
+        navigate("/")
+      }, 2000);
+    }
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (handleValidation()) {
       const { username, email, password } = value;
-      const {data} = await axios.post(registerRoute, {
+      const { data } = await axios.post(registerRoute, {
         username,
         email,
         password
       });
 
       if (data.status === true) {
-        localStorage.setItem("chat-app-user",JSON.stringify(data.user));
-        toast.success(data.message,toastOptions);
-        setTimeout(()=>{
+        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        toast.success(data.message, toastOptions);
+        setTimeout(() => {
           navigate("/");
-        },2500);
+        }, 2500);
       }
-      if(data.status===false) {
-        toast.error(data.message,toastOptions);
+      if (data.status === false) {
+        toast.error(data.message, toastOptions);
       }
     }
 

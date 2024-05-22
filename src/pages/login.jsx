@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from "styled-components"
 import Logo from "../assets/logo.svg"
 import { Link, useNavigate } from "react-router-dom"
@@ -25,6 +25,20 @@ function Login() {
     theme: "dark",
   }
 
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+
+      let username = JSON.parse(localStorage.getItem("chat-app-user"));
+
+
+      toast.success(`Welcome Back ${username.username}`, toastOptions);
+
+      setTimeout(() => {
+        navigate("/")
+      }, 2000);
+    }
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (handleValidation()) {
@@ -42,7 +56,7 @@ function Login() {
         setTimeout(() => {
           navigate("/");
         }, 700);
-      }
+    }
       if (data.status === false) {
         toast.error(data.message, toastOptions);
       }
