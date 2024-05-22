@@ -1,8 +1,8 @@
 import './static/App.css';
 import {BrowserRouter,Route,Routes} from "react-router-dom";
-import Register from "./pages/register"
-import Login from "./pages/login";
-import Chat from "./pages/chat";
+import Register from "./pages/Register"
+import Login from "./pages/Login";
+import Chat from "./pages/Chat"
 
 function App() {
   return (
