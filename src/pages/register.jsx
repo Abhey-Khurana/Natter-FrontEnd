@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import styled from "styled-components"
-import Logo from "../assets/logo.svg"
+import styled from "styled-components";
+import Chat from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -101,8 +101,8 @@ function Register() {
       <FormContainer>
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
-            <img src={Logo} alt="logo" />
-            <h1>natter</h1>
+            <img src={Chat} alt="logo" />
+            <h1>ping</h1>
           </div>
           <input
             type="text"

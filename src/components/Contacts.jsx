@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Logo from "../assets/logo.svg"
+import Chat from "../assets/logo.png"
 import styled from "styled-components"
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ function Contacts({ contacts, changeChat }) {
     const [currentUserImage, setCurrentUserImage] = useState(undefined);
     const [currentSelected, setCurrentSelected] = useState(undefined);
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         ; (async () => {
@@ -21,7 +21,7 @@ function Contacts({ contacts, changeChat }) {
                 setCurrentUserName(data.username);
                 setCurrentUserImage(data.avatarImage);
             }
-            else{
+            else {
                 navigate("/login");
             }
 
@@ -40,8 +40,8 @@ function Contacts({ contacts, changeChat }) {
             {currentUserImage && currentUserName && (
                 <Container>
                     <div className="brand">
-                        <img src={Logo} alt="logo" />
-                        <h3>Natter</h3>
+                        <img src={Chat} alt="logo" />
+                        <h3>Ping</h3>
                     </div>
                     <div className="contacts">
                         {/* <h1>{contacts.length}</h1> */}
