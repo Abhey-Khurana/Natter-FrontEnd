@@ -95,7 +95,9 @@ function SetAvatar() {
       const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
         avatarImage: avatars[selectedAvatar]
       });
-      console.log(data.isSet);
+      // console.log(data.isSet);
+
+      
 
       if (data.isSet) {
         setSelectedAvatar(true);
@@ -111,6 +113,13 @@ function SetAvatar() {
     }
   };
 
+  useEffect(() => {
+    ; (async function () {
+      if (!localStorage.getItem("chat-app-user")) {
+        navigate("/login");
+      }
+    })()
+  }, []);
   useEffect(() => {
     ; (async function () {
       const api = "https://api.multiavatar.com/";
@@ -146,14 +155,14 @@ function SetAvatar() {
             {avatars.map((avatar, index) => {
               return (
                 <div
-                key={avatar}
+                  key={avatar}
                   className={`avatar ${selectedAvatar === index ? "selected" : ""
                     } `}
                 >
                   <img
                     src={`data:image/svg+xml;base64,${avatar}`}
                     alt="avatar"
-                    
+
                     onClick={() => setSelectedAvatar(index)}
                   />
                 </div>
