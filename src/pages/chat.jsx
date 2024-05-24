@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { getAllRoutes ,host} from '../utils/apiRoutes.js';
+import { getAllRoutes } from '../utils/apiRoutes.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components"
@@ -38,7 +38,7 @@ function Chat() {
   useEffect(()=>{
     if(currUser)
       {
-        socket.current=io(host);
+        socket.current=io(process.env.REACT_APP_DB_URL);
         socket.current.emit("add-user",currUser._id);
       }
   },[currUser])
