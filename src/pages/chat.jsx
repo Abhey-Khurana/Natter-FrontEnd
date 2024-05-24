@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { getAllRoutes } from '../utils/apiRoutes.js';
+import React, { useEffect, useState, useRef } from 'react'
+import { getAllRoutes ,host} from '../utils/apiRoutes.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 import Contacts from '../components/Contacts.jsx';
 import Welcome from '../components/Welcome.jsx';
 import ChatContainer from '../components/ChatContainer.jsx';
+import { io } from "socket.io-client"
 
 function Chat() {
+
+  const socket=useRef();
 
   const [contacts, setContacts] = useState([]);
   const [currUser, setCurrUser] = useState(undefined);
   const [currentChat, setCurrentChat] = useState({});
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     ; (async function () {
@@ -26,6 +31,15 @@ function Chat() {
     })()
 
   }, []);
+
+  useEffect(()=>{
+    if(currUser)
+      {
+        socket.current=io(host);
+        socket.current.emit("add-user",currUser._id);
+      }
+  },[currUser])
+
 
   useEffect(() => {
     ; (async function () {
@@ -62,9 +76,9 @@ function Chat() {
         <Contacts contacts={contacts} changeChat={handleChatChange} />
 
         {
-          Object.keys(currentChat).length === 0 ? (<Welcome />) : (<ChatContainer currentChat={currentChat} currUser={currUser}/>)
+          Object.keys(currentChat).length === 0 ? (<Welcome />) : (<ChatContainer currentChat={currentChat} currUser={currUser} socket={socket}/>)
         }
-      
+
       </div>
     </Container>
   )

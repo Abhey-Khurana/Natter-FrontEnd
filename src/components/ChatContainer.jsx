@@ -1,34 +1,69 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect ,useRef} from 'react'
 import Logout from './Logout';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
 import axios from "axios";
 import { sendMessage, getMessages } from '../utils/apiRoutes';
-// import { uuid } from 'uuidv4';
+import { nanoid } from 'nanoid'
 
-function ChatContainer({ currentChat, currUser }) {
+function ChatContainer({ currentChat, currUser, socket }) {
 
   const [messages, setMessages] = useState([]);
+  const [arrivalMessage, setArrivalMessage] = useState(null)
+  const scrollRef = useRef();
 
   useEffect(() => {
     ; (async () => {
-      const response = await axios.post(`${getMessages}`,{
-        from:currUser._id,
-        to:currentChat._id
+      if(currentChat){
+      const response = await axios.post(`${getMessages}`, {
+        from: currUser._id,
+        to: currentChat._id
       });
       setMessages(response.data);
+    }
 
     })()
   }, [currentChat]);
 
   async function handleSendMsg(msg) {
-   
+
     const data = await axios.post(`${sendMessage}`, {
       from: currUser._id,
       to: currentChat._id,
       message: msg
     });
+
+    socket.current.emit("send-msg", {
+      from: currUser._id,
+      to: currentChat._id,
+      message: msg
+    })
+
+    const msgs = [...messages];
+    msgs.push({ fromSelf: true, message: msg });
+    setMessages(msgs);
   }
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-recieve", (msg) => {
+        setArrivalMessage({ fromSelf: false, message: msg });
+      })
+    }
+  }, []);
+
+
+  useEffect(() => {
+    arrivalMessage && setMessages((prev) =>  [...prev, arrivalMessage])
+  }, [arrivalMessage]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behaviour: "smooth" });
+  }, [messages]);
+
+
+
+
   return (
     <Container>
       <div className="chat-header">
@@ -48,12 +83,14 @@ function ChatContainer({ currentChat, currUser }) {
       <div className="chat-messages">
         {messages.map((message) => {
           return (
-            <div
-              className={`message ${message.fromSelf ? "sended" : "recieved"
-                }`}
-            >
-              <div className="content ">
-                <p>{message.message}</p>
+            <div ref={scrollRef} key={nanoid()}>
+              <div
+                className={`message ${message.fromSelf ? "sended" : "recieved"
+                  }`}
+              >
+                <div className="content ">
+                  <p>{message.message}</p>
+                </div>
               </div>
             </div>
           );

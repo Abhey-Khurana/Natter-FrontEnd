@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import robot from "../assets/robot.gif"
+import welcome from "../assets/welcome.gif"
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Logout from './Logout';
 
 function Welcome() {
 
     const [user, setUser] = useState({});
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
             if (localStorage.getItem("chat-app-user")) {
-                const user=await JSON.parse(localStorage.getItem("chat-app-user"));
+                const user = await JSON.parse(localStorage.getItem("chat-app-user"));
                 setUser(user);
             }
-            else{
+            else {
                 navigate("/navigate");
             }
         })();
@@ -26,11 +27,15 @@ function Welcome() {
 
         <>
             <Container>
-                <img src={robot} />
+                <img src={welcome} />
                 <h1>
                     Welcome, <span>{user.username}!</span>
                 </h1>
                 <h3>Please select a chat to Start messaging.</h3>
+                <LogoutButton>
+                    <Logout />
+                </LogoutButton>
+                <h4>Logout</h4>
             </Container>
         </>
     )
@@ -45,7 +50,16 @@ const Container = styled.div`
     height: 20rem;
   }
   span {
-    color: #4e0eff;
+    color: #5a189a;
+  }
+  h4{
+    margin-top:0.5rem;
+    color:#5a189a;
   }
 `;
+
+const LogoutButton = styled.div`
+  margin-top: 1rem;
+  
+`
 export default Welcome
