@@ -9,6 +9,10 @@ import axios from 'axios';
 
 function Register() {
 
+
+  let axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_DB_URL
+  });
   const navigate = useNavigate();
 
   const [value, setValue] = useState({
@@ -45,7 +49,7 @@ function Register() {
     e.preventDefault();
     if (handleValidation()) {
       const { username, email, password } = value;
-      const { data } = await axios.post(registerRoute, {
+      const { data } = await axiosInstance.post(registerRoute, {
         username,
         email,
         password

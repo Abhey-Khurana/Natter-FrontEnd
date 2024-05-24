@@ -12,10 +12,13 @@ function ChatContainer({ currentChat, currUser, socket }) {
   const [arrivalMessage, setArrivalMessage] = useState(null)
   const scrollRef = useRef();
 
+  let axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_DB_URL
+  });
   useEffect(() => {
     ; (async () => {
       if(currentChat){
-      const response = await axios.post(`${getMessages}`, {
+      const response = await axiosInstance.post(`${getMessages}`, {
         from: currUser._id,
         to: currentChat._id
       });
@@ -27,7 +30,7 @@ function ChatContainer({ currentChat, currUser, socket }) {
 
   async function handleSendMsg(msg) {
 
-    const data = await axios.post(`${sendMessage}`, {
+    const data = await axiosInstance.post(`${sendMessage}`, {
       from: currUser._id,
       to: currentChat._id,
       message: msg

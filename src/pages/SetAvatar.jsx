@@ -68,6 +68,10 @@ const Container = styled.div`
 
 function SetAvatar() {
 
+  let axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_DB_URL
+  });
+
 
   const navigate = useNavigate();
   const [avatars, setAvatars] = useState([]);
@@ -92,7 +96,7 @@ function SetAvatar() {
 
       const user = await JSON.parse(localStorage.getItem("chat-app-user"));
 
-      const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+      const { data } = await axiosInstance.post(`${setAvatarRoute}/${user._id}`, {
         avatarImage: avatars[selectedAvatar]
       });
       // console.log(data.isSet);

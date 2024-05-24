@@ -9,6 +9,10 @@ import axios from 'axios';
 
 function Login() {
 
+  let axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_DB_URL
+  });
+
   const navigate = useNavigate();
 
   const [value, setValue] = useState({
@@ -44,7 +48,7 @@ function Login() {
     if (handleValidation()) {
       const { username, password } = value;
 
-      const { data } = await axios.post(loginRoute, {
+      const { data } = await axiosInstance.post(loginRoute, {
         username,
         password
       });

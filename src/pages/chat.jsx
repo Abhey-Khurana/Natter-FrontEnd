@@ -10,6 +10,9 @@ import { io } from "socket.io-client"
 
 function Chat() {
 
+  let axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_DB_URL
+  });
   const socket=useRef();
 
   const [contacts, setContacts] = useState([]);
@@ -47,7 +50,7 @@ function Chat() {
 
         if (currUser.isAvatarImageSet) {
 
-          await axios.get(`${getAllRoutes}/${currUser._id}`)
+          await axiosInstance.get(`${getAllRoutes}/${currUser._id}`)
             .then((data) => {
               setContacts(data.data);
               // console.log(data.data);
