@@ -1,7 +1,7 @@
 import React, { useState, useEffect ,useRef} from 'react'
-import Logout from './Logout';
+import Logout from './Logout.jsx';
 import styled from 'styled-components';
-import ChatInput from './ChatInput';
+import ChatInput from './ChatInput.jsx';
 import axios from "axios";
 import { sendMessage, getMessages } from '../utils/apiRoutes';
 import { nanoid } from 'nanoid'

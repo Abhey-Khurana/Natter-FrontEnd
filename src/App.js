@@ -1,9 +1,9 @@
 import './static/App.css';
 import {BrowserRouter,Route,Routes} from "react-router-dom";
-import Register from "./pages/Register"
-import Login from "./pages/Login";
-import Chat from "./pages/Chat"
-import SetAvatar from './pages/SetAvatar';
+import Register from "./pages/Register.jsx"
+import Login from "./pages/Login.jsx";
+import Chat from "./pages/Chat.jsx"
+import SetAvatar from './pages/SetAvatar.jsx';
 
 function App() {
   return (
