@@ -1,4 +1,4 @@
-const host="https://ping-backend-53xv.onrender.com";
+const host=process.env.REACT_APP_DB_URL;
 
 const registerRoute=`${host}/api/auth/register`;
 const loginRoute=`${host}/api/auth/login`;
